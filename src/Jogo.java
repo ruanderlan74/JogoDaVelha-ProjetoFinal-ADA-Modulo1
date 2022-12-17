@@ -1,8 +1,18 @@
-public class JogoDaVeha {
+public class Jogo {
     public Character[][] jogo;
 
-    public JogoDaVeha() {
+    public Jogo() {
         this.jogo = new Character[3][3];
+    }
+
+    public void marcar(int jogador, int linha, int coluna){
+        Character item;
+        if(jogador%2!=0){
+            item = 'X';
+        }else{
+            item  = 'O';
+        }
+        jogo[linha-1][coluna-1] = item;
     }
 
     public void imprimir(){
@@ -19,6 +29,8 @@ public class JogoDaVeha {
             for (int j = 0; j < linha.length ; j++){
               if(linha[j] == null){
                   System.out.print(" * ");
+              }else {
+                  System.out.print(" "+jogo[i][j]+" ");
               }
                 if(j != linha.length-1){
                     System.out.print("|");
