@@ -53,4 +53,12 @@ public class Jogo {
         System.out.println();
 
     }
+
+    public boolean isPosicaoValida(int linha, int coluna) throws LimiteUtrapassadoException {
+        try{
+            return jogo[linha-1][coluna-1] == null;
+        }catch (ArrayIndexOutOfBoundsException e){
+            throw new LimiteUtrapassadoException("[ERR0]: Posicao linha "+linha+" e coluna "+coluna+" fora do tabuleiro");
+        }
+    }
 }

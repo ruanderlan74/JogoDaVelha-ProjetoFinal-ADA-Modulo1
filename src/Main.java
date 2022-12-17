@@ -8,11 +8,23 @@ public class Main {
         var jogador = 1;
         while (true){
             jogo.imprimir();
-            System.out.println("Jogador numero "+jogador+" digite a linha e coluna da posição que dejesa jogar :");
+            System.out.println("Jogador numero "+jogador+" \nDigite a linha e coluna da posição que dejesa jogar :");
             var linha = sc.nextInt();
             var coluna = sc.nextInt();
-            jogo.marcar(jogador,linha,coluna);
-            jogador = jogador==1?2:1;
+            try{
+                if(jogo.isPosicaoValida(linha,coluna)){
+                    jogo.marcar(jogador,linha,coluna);
+                    jogador = jogador==1?2:1;
+                }else {
+                    System.out.println("ALERTA!!! jogador numero "+jogador+" \nPosiçao escolhida já foi escolhida\nPor favor escolha novamente:");
+                }
+            }catch (LimiteUtrapassadoException e){
+                System.out.println("ALERTA!!!");
+                System.out.println(e.getMessage());
+                System.out.println("jogador numero "+jogador+" \nPosiçao escolhida já foi escolhida\nPor favor escolha novamente:");
+            }
+
+
         }
     }
 }
