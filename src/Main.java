@@ -15,14 +15,14 @@ public class Main {
                 if(jogo.isPosicaoValida(linha,coluna)){
                     jogo.marcar(jogador,linha,coluna);
                     if(jogo.isVitoria()){
-                        jogo.imprimir();
                         System.out.println("Vitoria do jogador "+jogador+" !!!!!!!!!");
+                        jogo.imprimir();
                         System.out.println("Deseja jogar novamente ?");
                         System.out.println("1 - Sim");
                         System.out.println("2 - Não");
                         var jogarNovamente = sc.nextInt();
                         if(jogarNovamente==1){
-                            jogador=1;
+                            jogador++;
                             jogo.novoJogo();
                         }else{
                             return;

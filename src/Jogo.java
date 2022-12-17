@@ -66,9 +66,39 @@ public class Jogo {
     }
 
     public boolean isVitoria(){
-        return isVitoriaLinha()||isVitoriaColuna();
+        return isVitoriaLinha()||isVitoriaColuna()||isVitoriaDiagonal1()||isVitoriaDiagonal2();
     }
 
+    private boolean isVitoriaDiagonal1() {
+        Character diagonal1 = null;
+        for (int i = 0; i < jogo.length; i++) {
+            for (int j = 0; j < jogo[i].length; j++) {
+                if (i == j) {
+                    var elemento = jogo[i][j];
+                    if (elemento == null || (diagonal1 != null && diagonal1 != elemento)) {
+                        return false;
+                    }
+                    diagonal1=elemento;
+                }
+            }
+        }
+        return true;
+    }
+    private boolean isVitoriaDiagonal2() {
+        Character diagonal2 = null;
+        for (int i = 0; i < jogo.length; i++) {
+            for (int j = 0; j < jogo[i].length; j++) {
+                if (i + j==jogo.length-1) {
+                    var elemento = jogo[i][j];
+                    if (elemento == null || (diagonal2 != null && diagonal2 != elemento)) {
+                        return false;
+                    }
+                    diagonal2=elemento;
+                }
+            }
+        }
+        return true;
+    }
     private boolean isVitoriaLinha(){
         Character aux;
         for (int i = 0; i < jogo.length; i++){
