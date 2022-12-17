@@ -5,6 +5,9 @@ public class Jogo {
         this.jogo = new Character[3][3];
     }
 
+    public void novoJogo(){
+        jogo = new Character[3][3];
+    }
     public void marcar(int jogador, int linha, int coluna){
         Character item;
         if(jogador%2!=0){
@@ -60,5 +63,47 @@ public class Jogo {
         }catch (ArrayIndexOutOfBoundsException e){
             throw new LimiteUtrapassadoException("[ERR0]: Posicao linha "+linha+" e coluna "+coluna+" fora do tabuleiro");
         }
+    }
+
+    public boolean isVitoria(){
+        return isVitoriaLinha()||isVitoriaColuna();
+    }
+
+    private boolean isVitoriaLinha(){
+        Character aux;
+        for (int i = 0; i < jogo.length; i++){
+            aux = null;
+            for (int j = 0; j < jogo[i].length; j++){
+                var elemento = jogo[i][j];
+                if(elemento == null || (aux != null && aux != elemento)){
+                    break;
+                }else{
+                    if(j==jogo[i].length-1){
+                        return true;
+                    }
+                    aux=elemento;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean isVitoriaColuna(){
+        Character aux;
+        for (int j = 0; j < jogo[0].length; j++){
+            aux = null;
+            for (int i = 0; i < jogo.length; i++){
+                var elemento = jogo[i][j];
+                if(elemento == null || (aux != null && aux != elemento)){
+                    break;
+                }else{
+                    if(i==jogo[0].length-1){
+                        return true;
+                    }
+                    aux=elemento;
+                }
+            }
+        }
+        return false;
     }
 }
