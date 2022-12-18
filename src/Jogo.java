@@ -10,12 +10,18 @@ public class Jogo {
     }
     public void marcar(int jogador, int linha, int coluna){
         Character item;
-        if(jogador%2!=0){
+        item = getItem(jogador);
+        jogo[linha-1][coluna-1] = item;
+    }
+
+    private static Character getItem(int jogador) {
+        Character item;
+        if(jogador %2!=0){
             item = 'X';
         }else{
             item  = 'O';
         }
-        jogo[linha-1][coluna-1] = item;
+        return item;
     }
 
     public void imprimir(){
@@ -137,8 +143,8 @@ public class Jogo {
         return false;
     }
 
-    public boolean isVelha() {
-        return allPosicoesPreenchidas()||poucasJogadasSemPosibilidadesDeVitoria();
+    public boolean isVelha(int jogador) {
+        return allPosicoesPreenchidas()||poucasJogadasSemPosibilidadesDeVitoria()||lastJogada(jogador);
     }
 
     private boolean poucasJogadasSemPosibilidadesDeVitoria() {
@@ -238,6 +244,104 @@ public class Jogo {
         return false;
     }
 
+    private boolean lastJogada(int jogador) {
+        if(lastPosicaoVazia()){
+            boolean flagExistePossibilidade =false;
+            var proximoJogador = getItem(jogador+1);
+            for (int i = 0; i < jogo.length; i++){
+                for (int j = 0; j < jogo[i].length; j++){
+                    var elemento = jogo[i][j];
+                    if (elemento==null){
+                        //verificar linha da posicao ainda não marcada
+                        if (i==0){
+                            if(jogo[i+1][j] == jogo[i+2][j] && jogo[i+2][j] == proximoJogador){
+                                flagExistePossibilidade = true;
+                            }
+                        }
+                        else if (i==jogo.length-1){
+                            if(jogo[i-1][j] == jogo[i-2][j] && jogo[i-1][j] ==proximoJogador){
+                                flagExistePossibilidade = true;
+                            }
+                        }else{
+                            if(jogo[i-1][j] == jogo[i+1][j] && jogo[i-1][j] ==proximoJogador){
+                                flagExistePossibilidade = true;
+                            }
+                        }
+                        //verificar coluna da posicao ainda não marcada
+                        if (j==0){
+                            if(jogo[i][j+1] == jogo[i][j+2] && jogo[i][j+1] ==proximoJogador){
+                                flagExistePossibilidade = true;
+                            }
+                        }
+                        else if (j==jogo[i].length-1){
+                            if(jogo[i][j-1] == jogo[i][j-2] && jogo[i][j-1] == proximoJogador){
+                                flagExistePossibilidade = true;
+                            }
+                        }else{
+                            if(jogo[i][j-1] == jogo[i][j+1] && jogo[i][j-1] ==proximoJogador){
+                                flagExistePossibilidade = true;
+                            }
+                        }
+                        //verificar diagonal 1
+                        if(i==j){
+                            if (i==0 && j==0){
+                                if(jogo[i+1][j+1] == jogo[i+2][j+2] && jogo[i+1][j+1] ==proximoJogador){
+                                    flagExistePossibilidade = true;
+                                }
+                            }
+                            else if (i==jogo.length-1 && j==jogo.length-1){
+                                if(jogo[i-1][j-1] == jogo[i-2][j-2] && jogo[i-1][j-1] ==proximoJogador){
+                                    flagExistePossibilidade = true;
+                                }
+                            }else{
+                                if(jogo[i-1][j-1] == jogo[i+1][j+1] && jogo[i-1][j-1] ==proximoJogador){
+                                    flagExistePossibilidade = true;
+                                }
+                            }
+                        }
+                        //verificar diagonal 1
+                        if(i+j== jogo.length-1){
+                            if (i==0 && j==jogo[0].length-1){
+                                if(jogo[i+1][j-1] == jogo[i+2][j-2] && jogo[i+1][j-1] ==proximoJogador){
+                                    flagExistePossibilidade = true;
+                                }
+                            }
+                            else if (i==jogo.length-1 && j==0){
+                                if(jogo[i-1][j+1] == jogo[i-2][j+2] && jogo[i-1][j+1] ==proximoJogador){
+                                    flagExistePossibilidade = true;
+                                }
+                            }else{
+                                if(jogo[i+1][j-1] == jogo[i-1][j+1] && jogo[i+1][j-1] ==proximoJogador){
+                                    flagExistePossibilidade = true;
+                                }
+                            }
+                        }
+                        //verificar diagonal 2
+                        if(i==j){
+                            if (i==0 && j==0){
+                                if(jogo[i+1][j+1] == jogo[i+2][j+2] && jogo[i+1][j+1] ==proximoJogador){
+                                    flagExistePossibilidade = true;
+                                }
+                            }
+                            else if (i==jogo.length-1 && j==jogo.length-1){
+                                if(jogo[i-1][j-1] == jogo[i-2][j-2] &&jogo[i-1][j-1] == proximoJogador){
+                                    flagExistePossibilidade = true;
+                                }
+                            }else{
+                                if(jogo[i-1][j-1] == jogo[i+1][j+1] &&jogo[i-1][j-1] == proximoJogador){
+                                    flagExistePossibilidade = true;
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+            return !flagExistePossibilidade;
+        }
+        return false;
+    }
+
     private boolean faltaMenosDeTresPosicoes() {
         var cont = 0;
         for (Character[] linha : jogo){
@@ -251,6 +355,21 @@ public class Jogo {
             return false;
         }
         return true;
+    }
+
+    private boolean lastPosicaoVazia() {
+        var cont = 0;
+        for (Character[] linha : jogo){
+            for (Character elemento : linha){
+                if(elemento==null){
+                    cont++;
+                }
+            }
+        }
+        if(cont==1){
+            return true;
+        }
+        return false;
     }
 
     private boolean allPosicoesPreenchidas() {

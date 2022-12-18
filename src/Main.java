@@ -1,10 +1,4 @@
 import java.util.Scanner;
-//          1   2   3
-//        1  X | O | X
-//        ---+---+---
-//        2  O |   | O
-//        ---+---+---
-//        3  X |   | X
 
 public class Main {
     public static void main(String[] args) {
@@ -36,7 +30,7 @@ public class Main {
                             return;
                         }
                     }
-                    if(jogo.isVelha()){
+                    if(jogo.isVelha(jogador)){
                         System.out.println("--------------------------------------");
                         System.out.println("Deu velha !!!!!!!!!");
                         jogo.imprimir();
