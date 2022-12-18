@@ -31,7 +31,7 @@ public class Jogo {
             System.out.print( i+1 + " ");
             for (int j = 0; j < linha.length ; j++){
               if(linha[j] == null){
-                  System.out.print(" * ");
+                  System.out.print("   ");
               }else {
                   System.out.print(" "+jogo[i][j]+" ");
               }
@@ -46,7 +46,7 @@ public class Jogo {
                     if(aux == jogo[0].length-1){
                         System.out.print("---");
                     }else {
-                        System.out.print("----");
+                        System.out.print("---+");
                     }
                 }
                 System.out.println();
@@ -135,5 +135,143 @@ public class Jogo {
             }
         }
         return false;
+    }
+
+    public boolean isVelha() {
+        return allPosicoesPreenchidas()||poucasJogadasSemPosibilidadesDeVitoria();
+    }
+
+    private boolean poucasJogadasSemPosibilidadesDeVitoria() {
+        if(faltaMenosDeTresPosicoes()){
+            boolean flagExistePossibilidade =false;
+            for (int i = 0; i < jogo.length; i++){
+                for (int j = 0; j < jogo[i].length; j++){
+                    var elemento = jogo[i][j];
+                    if (elemento==null){
+                        //verificar linha da posicao ainda não marcada
+                        if (i==0){
+                            if(jogo[i+1][j] == jogo[i+2][j]){
+                                flagExistePossibilidade = true;
+                            }
+                        }
+                        else if (i==jogo.length-1){
+                            if(jogo[i-1][j] == jogo[i-2][j]){
+                                flagExistePossibilidade = true;
+                            }
+                        }else{
+                            if(jogo[i-1][j] == jogo[i+1][j]){
+                                flagExistePossibilidade = true;
+                            }
+                        }
+                        //verificar coluna da posicao ainda não marcada
+                        if (j==0){
+                            if(jogo[i][j+1] == jogo[i][j+2]){
+                                flagExistePossibilidade = true;
+                            }
+                        }
+                        else if (j==jogo[i].length-1){
+                            if(jogo[i][j-1] == jogo[i][j-2]){
+                                flagExistePossibilidade = true;
+                            }
+                        }else{
+                            if(jogo[i][j-1] == jogo[i][j+1]){
+                                flagExistePossibilidade = true;
+                            }
+                        }
+                        //verificar diagonal 1
+                        if(i==j){
+                            if (i==0 && j==0){
+                                if(jogo[i+1][j+1] == jogo[i+2][j+2]){
+                                    flagExistePossibilidade = true;
+                                }
+                            }
+                            else if (i==jogo.length-1 && j==jogo.length-1){
+                                if(jogo[i-1][j-1] == jogo[i-2][j-2]){
+                                    flagExistePossibilidade = true;
+                                }
+                            }else{
+                                if(jogo[i-1][j-1] == jogo[i+1][j+1]){
+                                    flagExistePossibilidade = true;
+                                }
+                            }
+                        }
+                        //verificar diagonal 1
+                        if(i+j== jogo.length-1){
+                            if (i==0 && j==jogo[0].length-1){
+                                if(jogo[i+1][j-1] == jogo[i+2][j-2]){
+                                    flagExistePossibilidade = true;
+                                }
+                            }
+                            else if (i==jogo.length-1 && j==0){
+                                if(jogo[i-1][j+1] == jogo[i-2][j+2]){
+                                    flagExistePossibilidade = true;
+                                }
+                            }else{
+                                if(jogo[i+1][j-1] == jogo[i-1][j+1]){
+                                    flagExistePossibilidade = true;
+                                }
+                            }
+                        }
+                        //verificar diagonal 2
+                        if(i==j){
+                            if (i==0 && j==0){
+                                if(jogo[i+1][j+1] == jogo[i+2][j+2]){
+                                    flagExistePossibilidade = true;
+                                }
+                            }
+                            else if (i==jogo.length-1 && j==jogo.length-1){
+                                if(jogo[i-1][j-1] == jogo[i-2][j-2]){
+                                    flagExistePossibilidade = true;
+                                }
+                            }else{
+                                if(jogo[i-1][j-1] == jogo[i+1][j+1]){
+                                    flagExistePossibilidade = true;
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+            return !flagExistePossibilidade;
+        }
+        return false;
+    }
+
+    private boolean faltaMenosDeTresPosicoes() {
+        var cont = 0;
+        for (Character[] linha : jogo){
+            for (Character elemento : linha){
+                if(elemento==null){
+                    cont++;
+                }
+            }
+        }
+        if(cont>2){
+            return false;
+        }
+        return true;
+    }
+
+    private boolean allPosicoesPreenchidas() {
+        for (Character[] linha : jogo){
+            for (Character elemento : linha){
+                if(elemento==null){
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean allPosicaoPreenchidas() {
+        for (Character[] linha : jogo){
+            for (Character elemento : linha){
+                if(elemento==null){
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
