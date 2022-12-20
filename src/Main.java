@@ -1,8 +1,8 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        var sc  = new Scanner(System.in);
         Jogo jogo = new Jogo();
         System.out.println("Olá! vamos jogar o JOGO DA VELHA !");
         var jogador = 1;
@@ -10,9 +10,10 @@ public class Main {
             System.out.println("--------------------------------------");
             jogo.imprimir();
             System.out.println("Jogador "+jogador+" \nDigite a linha e coluna da posição que dejesa jogar :");
-            var linha = sc.nextInt();
-            var coluna = sc.nextInt();
             try{
+                var sc  = new Scanner(System.in);
+                var linha = sc.nextInt();
+                var coluna = sc.nextInt();
                 if(jogo.isPosicaoValida(linha,coluna)){
                     jogo.marcar(jogador,linha,coluna);
                     if(jogo.isVitoria()){
@@ -47,9 +48,14 @@ public class Main {
                     }
                     jogador = jogador==1?2:1;
                 }else {
-                    System.out.println("ALERTA!!! jogador "+jogador+" \nPosiçao escolhida já foi escolhida\nPor favor escolha novamente:");
+                    System.out.println("ALERTA!!! \njogador "+jogador+" \nPosiçao já foi escolhida\nPor favor escolha novamente:");
                 }
-            }catch (LimiteUtrapassadoException e){
+            }catch (InputMismatchException e){
+                System.out.println("ALERTA!!!");
+                System.out.println("[ERR0]: Valor informado invalido");
+                System.out.println("jogador "+jogador+" \nO valor digitado deve ser um numero\nPor favor escolha novamente:");
+            }
+            catch (LimiteUtrapassadoException e){
                 System.out.println("ALERTA!!!");
                 System.out.println(e.getMessage());
                 System.out.println("jogador "+jogador+" \nPosiçao escolhida já foi escolhida\nPor favor escolha novamente:");
